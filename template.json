@@ -1,0 +1,18 @@
+{
+  "builders": [
+    {
+      "type": "vagrant",
+      "box_name": "debian/jessie64",
+      "box_provider": "virtualbox",
+      "box_file": ".ovf",
+      "builder": {
+        "type": "virtualbox-ovf",
+        "headless": false,
+        "guest_additions_mode": "disable",
+        "ssh_username": "vagrant",
+        "ssh_private_key_file":"keys/vagrant",
+        "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now"
+      }
+    }
+  ]
+}
