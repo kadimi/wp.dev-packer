@@ -1,0 +1,23 @@
+{
+  "name": "wp.dev-packer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "template.json",
+  "dependencies": {
+    "del": "^2.2.2",
+    "file-exists": "^3.0.1",
+    "gulp": "^3.9.1",
+    "gulp-download": "0.0.1",
+    "gulp-exec": "^2.1.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kadimi/wp.dev-packer.git"
+  },
+  "author": "Nabil Kadimi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kadimi/wp.dev-packer/issues"
+  },
+  "homepage": "https://github.com/kadimi/wp.dev-packer#readme"
+}
