@@ -1,3 +1,4 @@
+const del        = require('del');
 const download   = require('gulp-download');
 const fileExists = require('file-exists');
 const gulp       = require('gulp');
@@ -32,4 +33,11 @@ gulp.task('keys', () => {
         download('https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant').pipe(gulp.dest("keys/"));
         download('https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub').pipe(gulp.dest("keys/"));
     }
+});
+
+/**
+ * Deletes artifacts & cache
+ */
+gulp.task('clean', () => {
+    del(['output-', 'packer_cache']);
 });
