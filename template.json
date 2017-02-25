@@ -16,18 +16,21 @@
     }
   ],
   "post-processors": [
-    {
-      "type": "vagrant",
-      "keep_input_artifact": false
-    },
-    {
-      "type": "atlas",
-      "artifact": "kadimi/wp.dev",
-      "artifact_type": "vagrant.box",
-      "metadata": {
-        "provider": "virtualbox",
-        "version": "0.0.1"
+    [
+      {
+        "type": "vagrant",
+        "keep_input_artifact": false,
+        "compression_level": 9
+      },
+      {
+        "type": "atlas",
+        "artifact": "kadimi/wp.dev",
+        "artifact_type": "vagrant.box",
+        "metadata": {
+          "provider": "virtualbox",
+          "version": "0.0.1"
+        }
       }
-    }
+    ]
   ]
 }
