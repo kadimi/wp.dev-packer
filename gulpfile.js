@@ -26,7 +26,7 @@ gulp.task('build', () => {
 });
 
 /**
- * Redownloads vagrant key pair if at least a key is missing
+ * Re-downloads vagrant key pair if at least one key is missing
  */
 gulp.task('keys', () => {
     if (!fileExists.sync('keys/vagrant') || !fileExists.sync('keys/vagrant.pub')) {
@@ -36,7 +36,7 @@ gulp.task('keys', () => {
 });
 
 /**
- * Deletes artifacts & cache
+ * Deletes artifacts and cache
  */
 gulp.task('clean', () => {
     del(['output-', 'packer_cache']);
