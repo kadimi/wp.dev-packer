@@ -7,7 +7,7 @@
       "box_file": ".ovf",
       "builder": {
         "type": "virtualbox-ovf",
-        "headless": false,
+        "headless": true,
         "guest_additions_mode": "disable",
         "ssh_username": "vagrant",
         "ssh_private_key_file":"keys/vagrant",
