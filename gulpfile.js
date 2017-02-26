@@ -3,6 +3,7 @@ const download   = require('gulp-download');
 const fileExists = require('file-exists');
 const gulp       = require('gulp');
 const spawn      = require('child_process').spawn;
+const remoteSrc  = require('gulp-remote-src');
 
 /**
  * Default task.
@@ -29,15 +30,20 @@ gulp.task('build', () => {
  * Re-downloads vagrant key pair if at least one key is missing
  */
 gulp.task('keys', () => {
-    if (!fileExists.sync('keys/vagrant') || !fileExists.sync('keys/vagrant.pub')) {
-        download('https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant').pipe(gulp.dest("keys/"));
-        download('https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub').pipe(gulp.dest("keys/"));
+    if (!fileExists.sync('vendor/vagrant/keys/vagrant') || !fileExists.sync('vendor/vagrant/keys/vagrant.pub')) {
+        remoteSrc(['vagrant', 'vagrant.pub'], {base: 'https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/'}).pipe(gulp.dest('vendor/vagrant/keys/'));
     }
 });
 
 /**
- * Deletes artifacts and cache
+ * Deletes cookbooks dependencies, artifacts and cache
  */
 gulp.task('clean', () => {
-    del(['output-', 'packer_cache']);
+    del([
+        'cookbooks/wp.dev/vendor',
+        'cookbooks/wp.dev/Berksfile.lock'
+        'vendor',
+        'output-',
+        'packer_cache',
+    ]);
 });

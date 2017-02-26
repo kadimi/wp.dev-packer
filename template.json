@@ -2,16 +2,24 @@
   "builders": [
     {
       "type": "vagrant",
-      "box_name": "debian/jessie64",
+      "box_name": "ubuntu/trusty64",
       "box_provider": "virtualbox",
       "box_file": ".ovf",
       "builder": {
         "type": "virtualbox-ovf",
         "headless": true,
         "ssh_username": "vagrant",
-        "ssh_private_key_file":"keys/vagrant",
+        "ssh_password": "vagrant",
+        "ssh_private_key_file":"vendor/vagrant/keys/vagrant",
         "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now"
       }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "chef-solo",
+      "cookbook_paths": ["cookbooks/wp.dev/vendor/cookbooks"],
+      "run_list": ["wp.dev::default"]
     }
   ],
   "post-processors": [
