@@ -18,11 +18,23 @@ gulp.task('default', () => {
 /**
  * Builds machine
  *
- * Uses the command `packer build -force template.json`
+ * Runs `packer build -force template.json`
  */
 gulp.task('build', () => {
   spawn('packer', ['build', '-force', 'template.json'], {stdio: 'inherit'}).on('close', function (code) {
-    console.log('Build process exited with code ' + code);
+    console.log('`packer build` process exited with code ' + code);
+  });
+});
+
+/**
+ * Install cookbooks
+ *
+ * Runs `berks vendor vendor/cookbooks` from `cookbooks/wp.dev`
+ */
+gulp.task('berks', () => {
+  process.chdir('cookbooks/wp.dev');
+  spawn('berks', ['vendor', 'vendor/cookbooks'], {stdio: 'inherit'}).on('close', function (code) {
+    console.log('`berks vendor` process exited with code ' + code);
   });
 });
 
@@ -41,9 +53,9 @@ gulp.task('keys', () => {
 gulp.task('clean', () => {
     del([
         'cookbooks/wp.dev/vendor',
-        'cookbooks/wp.dev/Berksfile.lock'
+        'cookbooks/wp.dev/Berksfile.lock',
         'vendor',
         'output-',
-        'packer_cache',
+        'packer_cache'
     ]);
 });
