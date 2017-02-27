@@ -12,7 +12,7 @@ const remoteSrc  = require('gulp-remote-src');
  * - Build machine
  */
 gulp.task('default', () => {
-    gulp.start('build', ['keys']);
+  gulp.start('build', ['keys']);
 });
 
 /**
@@ -43,9 +43,9 @@ gulp.task('berks', () => {
  * Re-downloads vagrant key pair if at least one key is missing
  */
 gulp.task('keys', () => {
-    if (!fileExists.sync('vendor/vagrant/keys/vagrant') || !fileExists.sync('vendor/vagrant/keys/vagrant.pub')) {
-        remoteSrc(['vagrant', 'vagrant.pub'], {base: 'https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/'}).pipe(gulp.dest('vendor/vagrant/keys/'));
-    }
+  if (!fileExists.sync('vendor/vagrant/keys/vagrant') || !fileExists.sync('vendor/vagrant/keys/vagrant.pub')) {
+    remoteSrc(['vagrant', 'vagrant.pub'], {base: 'https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/'}).pipe(gulp.dest('vendor/vagrant/keys/'));
+  }
 });
 
 /**
