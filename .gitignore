@@ -1,4 +1,5 @@
 node_modules/
 output-*/
 packer_cache/
+packer_vagrant_virtualbox.box
 vendor/

@@ -12,7 +12,7 @@ const remoteSrc  = require('gulp-remote-src');
  * - Build machine
  */
 gulp.task('default', () => {
-    gulp.start( 'build', ['keys']);
+    gulp.start('build', ['keys']);
 });
 
 /**
@@ -27,7 +27,7 @@ gulp.task('build', () => {
 });
 
 /**
- * Install cookbooks
+ * Installs cookbooks
  *
  * Runs `berks vendor vendor/cookbooks` from `cookbooks/wp.dev`
  */
@@ -36,6 +36,7 @@ gulp.task('berks', () => {
   spawn('berks', ['vendor', 'vendor/cookbooks'], {stdio: 'inherit'}).on('close', function (code) {
     console.log('`berks vendor` process exited with code ' + code);
   });
+  process.chdir('../..');
 });
 
 /**
