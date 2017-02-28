@@ -10,6 +10,7 @@
     "gulp-exec": "^2.1.3",
     "gulp-remote-src": "^0.4.2",
     "gulp-rename": "^1.2.2",
+    "mkdirp": "^0.5.1",
     "run-sequence": "^1.2.2"
   },
   "repository": {

@@ -3,3 +3,4 @@ output-*/
 packer_cache/
 packer_vagrant_virtualbox.box
 vendor/
+vm/
