@@ -1,5 +1,6 @@
 source "https://supermarket.chef.io"
 
-cookbook 'php'
+cookbook 'apache2'
+cookbook 'mysql'
 
 metadata

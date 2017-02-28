@@ -8,6 +8,7 @@
       "builder": {
         "type": "virtualbox-ovf",
         "headless": true,
+        "guest_additions_mode": "disable",
         "ssh_username": "vagrant",
         "ssh_password": "vagrant",
         "ssh_private_key_file":"vendor/vagrant/keys/vagrant",
@@ -17,7 +18,13 @@
   ],
   "provisioners": [
     {
+      "type": "file",
+      "source": "vendor/chef/chef.deb",
+      "destination": "/tmp/chef.deb"
+    },
+    {
       "type": "chef-solo",
+      "install_command": "echo 'packer' | sudo -S dpkg -i /tmp/chef.deb",
       "cookbook_paths": ["cookbooks/wp.dev/vendor/cookbooks"],
       "run_list": ["wp.dev::default"]
     }

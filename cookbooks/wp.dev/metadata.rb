@@ -2,6 +2,7 @@ name       'wp.dev'
 maintainer 'Nabil Kadimi'
 version    '1.0.0'
 
-depends 'php'
+depends 'apache2'
+depends 'mysql'
 
 supports 'ubuntu'
