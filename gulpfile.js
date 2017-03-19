@@ -4,11 +4,10 @@ const gulp        = require('gulp');
 const mkdirp      = require('mkdirp');
 const rename      = require('gulp-rename');
 const remoteSrc   = require('gulp-remote-src');
-const runSequence = require('run-sequence');
 const spawn       = require('child_process').spawn;
 
 /**
- * Default task does nothing
+ * Builds machine 
  */
 gulp.task('default', ()=> {
   spawn('gulp', ['clean'], {stdio: 'inherit'}).on('close', () => {
@@ -39,7 +38,7 @@ gulp.task('build', () => {
  * @todo "...if exists"
  */
 gulp.task('box-add', () => {
-  spawn('vagrant', ['box', 'add', 'packer_vagrant_virtualbox.box', '--name', 'wp.dev', '--force'], {stdio: 'inherit'}).on('close', function (code) {
+  spawn('vagrant', ['box', 'add', 'packer_virtualbox-ovf_virtualbox.box', '--name', 'wp.dev', '--force'], {stdio: 'inherit'}).on('close', function (code) {
     console.log('`vagrant box add` process exited with code ' + code);
   });
 });
