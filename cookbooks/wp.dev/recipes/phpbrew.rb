@@ -1,11 +1,9 @@
-#
-
 execute 'phpbrew_01' do
 	command 'apt-get build-dep -y php5'
 end
 
 execute 'phpbrew_02' do
-	command 'apt-get install -y php5 php5-dev php-pear autoconf automake curl libcurl3-openssl-dev build-essential libxslt1-dev re2c libxml2 libxml2-dev php5-cli bison 	libbz2-dev libreadline-dev'
+	command 'apt-get install -y php5 php5-dev php-pear autoconf automake curl libcurl3-openssl-dev build-essential libxslt1-dev re2c libxml2 libxml2-dev php5-cli bison libbz2-dev libreadline-dev'
 end
 
 execute 'phpbrew_03' do

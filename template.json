@@ -6,7 +6,7 @@
     {
       "type": "virtualbox-ovf",
       "headless": false,
-      "source_path": "{{user `home`}}/.vagrant.d/boxes/debian-VAGRANTSLASH-jessie64/8.7.0/virtualbox/box.ovf",
+      "source_path": "{{user `home`}}/.vagrant.d/boxes/ubuntu-VAGRANTSLASH-trusty64/20170222.0.0/virtualbox/box.ovf",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_private_key_file":"vendor/vagrant/keys/vagrant",
@@ -20,7 +20,7 @@
   "provisioners": [
     {
       "type": "shell",
-      "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'",
+      "execute_command": "echo 'vagrant' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'",
       "script": "scripts/install-virtualbox-guest-additions.sh"
     },
     {
@@ -30,9 +30,13 @@
     },
     {
       "type": "chef-solo",
-      "install_command": "echo 'packer' | sudo -S dpkg -i /tmp/chef.deb",
+      "install_command": "echo 'vagrant' | sudo -S dpkg -i /tmp/chef.deb",
       "cookbook_paths": ["cookbooks/wp.dev/vendor/cookbooks"],
       "run_list": ["wp.dev::default"]
+    },
+    {
+      "type": "shell",
+      "inline": "sudo apt-get purge --auto-remove -y chef chef-zero"
     }
   ],
   "post-processors": [
