@@ -1,19 +1,20 @@
 const del         = require('del');
 const fileExists  = require('file-exists');
 const gulp        = require('gulp');
+const jscs        = require('gulp-jscs');
 const mkdirp      = require('mkdirp');
 const rename      = require('gulp-rename');
 const remoteSrc   = require('gulp-remote-src');
 const spawn       = require('child_process').spawn;
 
 /**
- * Builds machine 
+ * Builds machine.
  */
 gulp.task('default', ()=> {
-  spawn('gulp', ['clean'], {stdio: 'inherit'}).on('close', () => {
-    spawn('gulp', ['dl'], {stdio: 'inherit'}).on('close', () => {
-      spawn('gulp', ['berks'], {stdio: 'inherit'}).on('close', () => {
-        spawn('gulp', ['build'], {stdio: 'inherit'}).on('close', function (code) {
+  spawn('gulp', ['clean'], { stdio: 'inherit' }).on('close', () => {
+    spawn('gulp', ['dl'], { stdio: 'inherit' }).on('close', () => {
+      spawn('gulp', ['berks'], { stdio: 'inherit' }).on('close', () => {
+        spawn('gulp', ['build'], { stdio: 'inherit' }).on('close', function (code) {
           console.log('`gulp build` process exited with code ' + code);
         });
       });
@@ -27,9 +28,10 @@ gulp.task('default', ()=> {
  * Runs `packer build -force template.json`
  */
 gulp.task('build', () => {
-  spawn('packer', ['build', '-force', 'template.json'], {stdio: 'inherit'}).on('close', function (code) {
-    console.log('`packer build` process exited with code ' + code);
-  });
+  spawn('packer', ['build', '-force', 'template.json'], { stdio: 'inherit' })
+    .on('close', function (code) {
+      console.log('`packer build` process exited with code ' + code);
+    });
 });
 
 /**
@@ -38,9 +40,11 @@ gulp.task('build', () => {
  * @todo "...if exists"
  */
 gulp.task('box-add', () => {
-  spawn('vagrant', ['box', 'add', 'packer_virtualbox-ovf_virtualbox.box', '--name', 'wp.dev', '--force'], {stdio: 'inherit'}).on('close', function (code) {
-    console.log('`vagrant box add` process exited with code ' + code);
-  });
+  box = 'packer_virtualbox-ovf_virtualbox.box';
+  spawn('vagrant', ['box', 'add', box, '--name', 'wp.dev', '--force'], { stdio: 'inherit' })
+    .on('close', function (code) {
+      console.log('`vagrant box add` process exited with code ' + code);
+    });
 });
 
 /**
@@ -49,13 +53,15 @@ gulp.task('box-add', () => {
 gulp.task('box-launch', () => {
   mkdirp('vm');
   process.chdir('vm');
-  spawn('vagrant', ['init', 'wp.dev', '-f'], {stdio: 'inherit'}).on('close', function (code) {
+  spawn('vagrant', ['init', 'wp.dev', '-f'], { stdio: 'inherit' }).on('close', function (code) {
     process.chdir('vm');
-    spawn('vagrant', ['up'], {stdio: 'inherit'}).on('close', function (code) {
+    spawn('vagrant', ['up'], { stdio: 'inherit' }).on('close', function (code) {
       console.log('`vagrant up` process exited with code ' + code);
     });
+
     process.chdir('..');
   });
+
   process.chdir('..');
 });
 
@@ -66,9 +72,10 @@ gulp.task('box-launch', () => {
  */
 gulp.task('berks', () => {
   process.chdir('cookbooks/wp.dev');
-  spawn('berks', ['vendor', 'vendor/cookbooks'], {stdio: 'inherit'}).on('close', function (code) {
+  spawn('berks', ['vendor', 'vendor/cookbooks'], { stdio: 'inherit' }).on('close', function (code) {
     console.log('`berks vendor` process exited with code ' + code);
   });
+
   process.chdir('../..');
 });
 
@@ -76,9 +83,14 @@ gulp.task('berks', () => {
  * Downloads Vagrant key pair if at least one key is missing
  */
 gulp.task('dl-keys', () => {
-  if (!fileExists.sync('vendor/vagrant/keys/vagrant') || !fileExists.sync('vendor/vagrant/keys/vagrant.pub')) {
-    return remoteSrc(['vagrant', 'vagrant.pub'], {base: 'https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/'}).pipe(gulp.dest('vendor/vagrant/keys/'));
+  var vagrantKeysBase = 'https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/';
+  var key = 'vendor/vagrant/keys/vagrant';
+  var keyPub = `${key.pub}`;
+  if (!fileExists.sync(key) || !fileExists.sync(keyPub)) {
+    return remoteSrc(['vagrant', 'vagrant.pub'], { base: vagrantKeysBase })
+      .pipe(gulp.dest('vendor/vagrant/keys/'));
   }
+
   return true;
 });
 
@@ -87,38 +99,35 @@ gulp.task('dl-keys', () => {
  */
 gulp.task('dl-chef', () => {
   if (!fileExists.sync('vendor/chef/chef.deb')) {
-    return remoteSrc(['chef_12.19.36-1_amd64.deb'], {base: 'https://packages.chef.io/files/stable/chef/12.19.36/ubuntu/16.04/'})
+    var chefDebBase = 'https://packages.chef.io/files/stable/chef/12.19.36/ubuntu/16.04/';
+    return remoteSrc(['chef_12.19.36-1_amd64.deb'], { base: chefDebBase })
       .pipe(rename('chef.deb'))
       .pipe(gulp.dest('vendor/chef'))
     ;
   }
+
   return true;
 });
 
 /**
  * Downloads
  */
-gulp.task('dl', () => {
-  return gulp.start('dl-chef') && gulp.start('dl-keys');
-});
+gulp.task('dl', () => gulp.start('dl-chef') && gulp.start('dl-keys'));
 
 /**
  * Deletes cookbooks dependencies, artifacts and cache
  */
-gulp.task('clean', () => {
-  return del([
-    'cookbooks/wp.dev/vendor',
-    'cookbooks/wp.dev/Berksfile.lock',
-    'output-',
-    'packer_cache'
-  ]);
-});
+gulp.task('clean', () => del([
+  'cookbooks/wp.dev/vendor',
+  'cookbooks/wp.dev/Berksfile.lock',
+  'output-',
+  'packer_cache',
+]));
 
 /**
  * Deletes cookbooks dependencies, artifacts and cache
  */
-gulp.task('wipe', () => {
-  return del([
-    'vendor'
-  ]);
-});
+gulp.task('wipe', () => del(['vendor']));
+
+// Check syntax.
+gulp.task('jscs', () => gulp.src(['*.js', '!light/*.js']).pipe(jscs()).pipe(jscs.reporter()));

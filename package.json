@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/kadimi/wp.dev-packer/issues"
   },
-  "homepage": "https://github.com/kadimi/wp.dev-packer#readme"
+  "homepage": "https://github.com/kadimi/wp.dev-packer#readme",
+  "devDependencies": {
+    "gulp-jscs": "^4.0.0"
+  }
 }
