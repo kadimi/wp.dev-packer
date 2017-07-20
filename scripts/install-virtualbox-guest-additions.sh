@@ -1,5 +1,7 @@
 #!/bin/bash
 
+exit 0;
+
 # Install required packages
 apt-get install -y build-essential
 apt-get install -y linux-headers-$(uname -r)
