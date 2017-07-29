@@ -67,7 +67,8 @@ gulp.task('variables', () => {
   fs.writeFileSync('variables.json', `{"box":"${boxPath}"}\n`);
 });
 
-/**...if exists"
+/**
+ * Add box.
  */
 gulp.task('box-add', () => {
   newBox = 'packer_virtualbox-ovf_virtualbox.box';
