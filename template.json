@@ -1,12 +1,12 @@
 {
   "variables": {
-    "home": "{{env `HOME`}}"
+    "box": "{{env box}}"
   },
   "builders": [
     {
       "type": "virtualbox-ovf",
       "headless": false,
-      "source_path": "{{user `home`}}/.vagrant.d/boxes/ubuntu-VAGRANTSLASH-trusty64/20170222.0.0/virtualbox/box.ovf",
+      "source_path": "{{user `box`}}",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_private_key_file":"vendor/vagrant/keys/vagrant",
@@ -37,7 +37,7 @@
     },
     {
       "type": "shell",
-      "inline": "sudo apt-get purge --auto-remove -y chef chef-zero"
+      "inline": "sudo apt-get purge --auto-remove -y chef"
     }
   ],
   "post-processors": [

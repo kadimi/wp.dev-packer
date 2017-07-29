@@ -1,7 +1,6 @@
 source "https://supermarket.chef.io"
 
-cookbook 'apache2'
-# cookbook 'mysql'
+# cookbook 'apache2'
 cookbook 'mariadb', github: 'sinfomicien/mariadb'
 
 metadata

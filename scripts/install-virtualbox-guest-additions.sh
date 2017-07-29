@@ -1,6 +1,6 @@
 #!/bin/bash
 
-exit 0;
+exit 0
 
 # Install required packages
 apt-get install -y build-essential

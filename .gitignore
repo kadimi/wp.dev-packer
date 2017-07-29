@@ -3,5 +3,6 @@ output-*/
 package-lock.json
 packer_cache/
 packer_*.*
+variables.json
 vendor/
 vm/
