@@ -64,9 +64,7 @@ gulp.task('variables', () => {
   var boxPath = execSync(`find ~/.vagrant.d/boxes/${boxSlash} | grep ovf | sort -rn | head -n 1`)
     .toString()
     .trim();
-  fs.writeFileSync('template.x', `{"box":"${boxPath}"}\n`);
-  return;
-  execSync(`echo "{\\\"box\\\":\\\"${boxPath}\\\"}" > variables.json`);
+  fs.writeFileSync('variables.json', `{"box":"${boxPath}"}\n`);
 });
 
 /**...if exists"
