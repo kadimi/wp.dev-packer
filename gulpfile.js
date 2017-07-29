@@ -102,10 +102,7 @@ gulp.task('box-launch', () => {
  */
 gulp.task('berks', () => {
   process.chdir('cookbooks/wp.dev');
-  spawn('berks', ['vendor', 'vendor/cookbooks'], { stdio: 'inherit' }).on('close', function (code) {
-    console.log('`berks vendor` process exited with code ' + code);
-  });
-
+  execSync('berks vendor vendor/cookbooks', { stdio: 'inherit' });
   process.chdir('../..');
 });
 
