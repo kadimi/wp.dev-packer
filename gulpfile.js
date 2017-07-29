@@ -1,6 +1,7 @@
 // const box = 'ubuntu/trusty64';
 // const box = 'ubuntu/xenial64';
-const box = 'envimation/ubuntu-xenial';
+// const box = 'envimation/ubuntu-xenial';
+const box = 'bento/ubuntu-16.04';
 
 const del         = require('del');
 const fileExists  = require('file-exists');

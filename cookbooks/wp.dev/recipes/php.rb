@@ -1,6 +1,6 @@
 apt_repository 'php_ppa' do
-  uri          'ppa:ondrej/php'
-  distribution node['lsb']['codename']
+	uri          'ppa:ondrej/php'
+	distribution node['lsb']['codename']
 end
 
 apt_package 'php5.6'
