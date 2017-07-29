@@ -5,12 +5,10 @@ const box = 'bento/ubuntu-16.04';
 
 const del         = require('del');
 const execSync    = require('child_process').execSync;
-const fileExists  = require('file-exists');
+const fs          = require('fs');
 const gulp        = require('gulp');
 const jscs        = require('gulp-jscs');
 const mkdirp      = require('mkdirp');
-const rename      = require('gulp-rename');
-const remoteSrc   = require('gulp-remote-src');
 const spawn       = require('child_process').spawn;
 const util        = require('gulp-util');
 
@@ -19,12 +17,20 @@ const util        = require('gulp-util');
  */
 const dl = function(url, name, dir='.', force) {
   var path=`${dir}/${name}`;
-  if ( fileExists.sync(`${dir}/${name}`) && !force ) {
-    util.log(`File util.colors.cyan(path) exists, skipping...` );
+  var fileExists = false;
+
+  try {
+    if ( fs.statSync(path) ) {
+      fileExists = true;
+    }
+  } catch (err) {}
+
+  if ( fileExists && !force ) {
+    util.log(`File ${util.colors.cyan(path)} exists, skipping...` );
   } else {
     util.log(`Downloading ${util.colors.cyan(url)} as ${util.colors.cyan(path)}...` );
     execSync(`mkdir -p ${dir}`, { stdio: 'inherit' });
-    execSync(`wget -O ${dir}/${name} "${url}"`, { stdio: 'inherit' });
+    execSync(`wget -O ${path} "${url}"`, { stdio: 'inherit' });
   }
 };
 
@@ -55,9 +61,11 @@ gulp.task('build', ['variables'], () => {
  */
 gulp.task('variables', () => {
   var boxSlash = box.replace('/', '-VAGRANTSLASH-');
-  var boxPath = execSync('find ~/.vagrant.d/boxes/' + boxSlash + ' |grep ovf |sort -rn |head -n 1')
+  var boxPath = execSync(`find ~/.vagrant.d/boxes/${boxSlash} | grep ovf | sort -rn | head -n 1`)
     .toString()
     .trim();
+  fs.writeFileSync('template.x', `{"box":"${boxPath}"}\n`);
+  return;
   execSync(`echo "{\\\"box\\\":\\\"${boxPath}\\\"}" > variables.json`);
 });
 
