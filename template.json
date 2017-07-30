@@ -1,12 +1,14 @@
 {
   "variables": {
-    "box": "{{env box}}"
+    "source_path": "{{env source_path}}",
+    "time": "{{env time}}",
+    "vm_name": "{{env vm_name}}"
   },
   "builders": [
     {
       "type": "virtualbox-ovf",
       "headless": false,
-      "source_path": "{{user `box`}}",
+      "source_path": "{{user `source_path`}}",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_private_key_file":"vendor/vagrant/keys/vagrant",
@@ -43,6 +45,7 @@
   "post-processors": [
     [
       {
+        "output": "{{user `vm_name`}}-{{.Provider}}-{{user `time`}}.box",
         "type": "vagrant",
         "keep_input_artifact": false,
         "compression_level": 9

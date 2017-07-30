@@ -1,8 +1,6 @@
-// const box = 'ubuntu/trusty64';
-// const box = 'ubuntu/xenial64';
-// const box = 'envimation/ubuntu-xenial';
-const box = 'bento/ubuntu-16.04';
+const config      = require('./package.json').config;
 
+const dateformat  = require('dateformat');
 const del         = require('del');
 const execSync    = require('child_process').execSync;
 const fs          = require('fs');
@@ -60,11 +58,18 @@ gulp.task('build', ['variables'], () => {
  * Make variables file.
  */
 gulp.task('variables', () => {
-  var boxSlash = box.replace('/', '-VAGRANTSLASH-');
-  var boxPath = execSync(`find ~/.vagrant.d/boxes/${boxSlash} | grep ovf | sort -rn | head -n 1`)
-    .toString()
-    .trim();
-  fs.writeFileSync('variables.json', `{"box":"${boxPath}"}\n`);
+  var boxSlash   = config.box.replace('/', '-VAGRANTSLASH-');
+  var sourcePath = execSync(`find ~/.vagrant.d/boxes/${boxSlash} \
+    | grep ovf  \
+    | sort -rn  \
+    | head -n 1 \
+  `).toString().trim();
+  var variables = {
+    source_path : sourcePath,
+    time        : dateformat(new Date, 'isoUtcDateTime').replace(/[:-]/g, ''),
+    vm_name     : require('./package.json').name.replace('.', '-').replace(/-packer$/, '')
+  };
+  fs.writeFileSync('variables.json', JSON.stringify( variables ) + "\n");
 });
 
 /**
@@ -134,6 +139,7 @@ gulp.task('dl-chef', () => {
  * Downloads or updates vagrant box.
  */
 gulp.task('dl-box', () => {
+  var box = config.box;
   var boxExists = execSync(`vagrant box list | grep ${box} | wc -l`).toString().trim() == 1;
   if(boxExists){
     util.log(`Updating box ${util.colors.cyan(box)}...` );

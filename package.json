@@ -4,12 +4,10 @@
   "description": "",
   "main": "template.json",
   "dependencies": {
+    "dateformat": "^2.0.0",
     "del": "^2.2.2",
-    "file-exists": "^3.0.1",
     "gulp": "^3.9.1",
     "gulp-jscs": "^4.0.0",
-    "gulp-remote-src": "^0.4.2",
-    "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.8",
     "mkdirp": "^0.5.1"
   },
@@ -22,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/kadimi/wp.dev-packer/issues"
   },
-  "homepage": "https://github.com/kadimi/wp.dev-packer#readme"
+  "homepage": "https://github.com/kadimi/wp.dev-packer#readme",
+  "config": {
+    "box": "bento/ubuntu-16.04"
+  }
 }
