@@ -161,7 +161,6 @@ gulp.task('dl', () => gulp.start('dl-chef') && gulp.start('dl-keys') && gulp.sta
 gulp.task('clean', () => del([
   'cookbooks/wp.dev/vendor',
   'cookbooks/wp.dev/Berksfile.lock',
-  'output-',
   'packer_cache',
 ]));
 
